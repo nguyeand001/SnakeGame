@@ -15,9 +15,6 @@ public class SnakeGame extends JFrame implements ActionListener {
         this.setVisible(true);
         this.setLocationRelativeTo(null);
 
-        JButton play = new JButton("Play");
-        play.setBounds(50, 50, 50, 25);
-        this.add(play);
     }
 
 

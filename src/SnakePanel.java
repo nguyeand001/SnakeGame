@@ -1,6 +1,8 @@
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.Border;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.Random;
 import java.awt.event.*;
 
@@ -20,35 +22,83 @@ public class SnakePanel extends JPanel implements ActionListener{
     char direction = 'R';
     boolean running = false;
     boolean play = false;
-    JButton playButton = new JButton("Play");
+    JButton playButton;
+    JButton end;
     Timer timer;
+    JPanel play_button_panel;
+    JPanel end_button_panel;
+    JPanel title_panel;
+    JPanel panel4;
+    JPanel panel5;
+    JPanel panel6;
     Random random;
 
     public SnakePanel(){
         random = new Random();
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-        this.setBackground(Color.WHITE);
+        this.setBackground(Color.BLACK);
         this.setFocusable(true);
         this.addKeyListener(new MyKeyAdapter());
+        this.setLayout(new BorderLayout());
 
-        //Label
-        /*
-        JLabel label = new JLabel("Andrew's Snake Game");
-        JPanel panel2 = new JPanel();
-        panel2.setLayout(new BorderLayout());
-        panel2.add(label);
-        this.add(panel2, BorderLayout.NORTH);
+        Border border = BorderFactory.createLineBorder(Color.YELLOW, 6);
+        this.setBorder(border);
 
-        //Play Button
+        //Main panels
+        play_button_panel = new JPanel();
+        play_button_panel.setBackground(Color.RED);
+        end_button_panel = new JPanel();
+        title_panel = new JPanel();
 
-        JPanel panel1 = new JPanel();
-        //panel1.setSize(1024, 768);
-        playButton.setPreferredSize(new Dimension(85, 60));
-        panel1.setLayout(new BorderLayout());
-        panel1.add(playButton);
-        this.add(panel1, BorderLayout.SOUTH);
-        */
-        //startGame();
+
+        //Sub panels
+        panel4 = new JPanel();
+        panel5 = new JPanel();
+        panel6 = new JPanel();
+
+        //Play button
+        playButton = new JButton();
+        playButton.addActionListener(this);
+        playButton.setPreferredSize(new Dimension(15, 30));
+        playButton.setMinimumSize(new Dimension(15, 30));
+        playButton.setMaximumSize(new Dimension(15, 30));
+        playButton.setText("Play");
+        play_button_panel.add(playButton);
+        play_button_panel.setPreferredSize(new Dimension(70, 250));
+        play_button_panel.setMinimumSize(new Dimension(70, 250));
+        play_button_panel.setMaximumSize(new Dimension(70, 250));
+
+        play_button_panel.add(title_panel);
+        this.add(play_button_panel, BorderLayout.SOUTH);
+
+
+        //End Button
+        end = new JButton("End");
+        end.addActionListener(this);
+        end_button_panel.setBackground(Color.GREEN);
+        end_button_panel.add(panel4);
+        end_button_panel.setPreferredSize(new Dimension(70, 100));
+        end_button_panel.setMinimumSize(new Dimension(70, 100));
+        end_button_panel.setMaximumSize(new Dimension(70, 100));
+        panel4.setBackground(Color.BLUE);
+        panel4.add(end);
+        end_button_panel.setLayout(new BorderLayout());
+        end_button_panel.add(panel4, BorderLayout.WEST);
+        this.add(end_button_panel, BorderLayout.NORTH);
+
+
+        //Game title screen
+        ImageIcon image = new ImageIcon("U:/textanim-UcIFb.gif");
+        JLabel label = new JLabel();
+        label.setIcon(image);
+        title_panel.add(label);
+        this.add(title_panel, BorderLayout.CENTER);
+
+        //Things to do
+
+        //Play again button
+        //Move buttons to correct places and make sure the panels don't interfere with the game
+        //Resize buttons
 
         }
     public void startGame(){
@@ -165,6 +215,20 @@ public class SnakePanel extends JPanel implements ActionListener{
     }
     @Override
     public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==playButton){
+            startGame();
+            playButton.setVisible(false);
+            play_button_panel.setVisible(false);
+            title_panel.setVisible(false);
+            this.setBorder(null);
+            end_button_panel.setOpaque(false);
+            panel4.setOpaque(false);
+        }
+        if(e.getSource()==end){
+            running = false;
+            end.setVisible(false);
+            end_button_panel.setVisible(false);
+        }
         if(running){
             Move();
             checkApple();
