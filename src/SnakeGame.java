@@ -3,25 +3,54 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class SnakeGame extends JFrame implements ActionListener {
+        JButton playAgain;
+        SnakePanel game;
 
 
     public SnakeGame(){
+        /*
+        playAgain.addActionListener(this);
+        panel.add(playAgain);
+        main.setLayout(new BorderLayout());
+        main.add(panel, BorderLayout.NORTH);
+        this.add(playAgain);
 
-        this.add(new SnakePanel());
+         */
+        playAgain = new JButton();
+        playAgain.setText("Play Again!");
+        playAgain.setForeground(Color.RED);
+        playAgain.setSize(100, 50);
+        playAgain.setLocation(300, 0);
+        playAgain.addActionListener(this);
+
+        game = new SnakePanel();
+
+        this.add(playAgain);
+        this.add(game);
         this.setTitle("SnakeGame");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.pack();
         this.setVisible(true);
         this.setLocationRelativeTo(null);
+        playAgain.setVisible(true);
+    }
+
+    public void playAgain(){
+        this.remove(this);
+       // this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        new SnakeGame();
 
     }
 
-
-
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if(e.getSource() == playAgain){
+            this.remove(game);
+            game = new SnakePanel();
+            this.add(game);
+            SwingUtilities.updateComponentTreeUI(this);
+        }
     }
 
     /*this.setTitle("SnakeGame");
